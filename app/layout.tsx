@@ -4,7 +4,7 @@ import './globals.css'
 
 import { cn } from "@/lib/utils"
  
-export const fontSans = FontSans({
+export const fontSans:any = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 })
