@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { Analytics } from '@vercel/analytics/react';
 
 import { cn } from "@/lib/utils"
  
@@ -21,7 +22,10 @@ export default function RootLayout({
       <body  className={cn(
           "min-h-screen bg-background font-sans antialiased",
           inter.className
-        )}>{children}</body>
+        )}>{children}
+          <Analytics />
+        
+        </body>
     </html>
   )
 }
