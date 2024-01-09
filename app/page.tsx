@@ -1,20 +1,22 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 space-y-10">
-      <Image className='border-2 border-zinc-400 rounded-full' width={150} height={150} src={"/AlimjanProfile.jpg"} alt='profile' ></Image>
-      <div className='space-y-2'>
-      <p className='text-center'>Welcome to the personal website of <span className=' text-black font-semibold'>Alimjan Ablimit</span>  (also known as Alimujiang Abudumiti).</p>
-
-      <p className='text-center'>My site is currently under construction, but in the meantime, you&apos;re warmly invited to learn more about me through my project blog.</p>
-
-      <p className='text-center'>For insights into my work and interests, please <Link className='text-sky-500 underline underline-offset-1' href={"https://alimjan.notion.site/Is-Ali-7b3453d3c328479da2a2a838c2deaefe"}>click here to explore my blog</Link>.</p>
-     
+    <main className="flex flex-1 flex-col items-center justify-center space-y-2">
+      <div className="h-full bg-amber-300 w-full p-14 border-8 border-black flex items-end flex-col">
+        <p className="text-9xl">I&apos;m Alimjan</p>
+        <p className="text-8xl">Ablimit</p>
       </div>
-
+      <div className="h-full bg-amber-300 w-full px-36 border-8 border-black">
+        <div className="space-y-2 bg-white h-full flex flex-col items-center justify-between py-6 px-36 text-2xl font-semibold">
+          <p className="w-full">i ❤️ Web Development</p>
+          <p className="w-full">i ❤️ UI/UX</p>
+          <p className="w-full">i ❤️ iOS Development</p>
+          <p className="w-full">i ❤️ Open Source</p>
+          <p className="w-full">i ❤️ ZJU</p>
+        </div>
+      </div>
     </main>
-  )
+  );
 }
