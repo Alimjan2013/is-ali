@@ -5,7 +5,7 @@ export default function Home() {
   return (
 
     <main className="flex min-h-screen flex-col items-center justify-center p-4 space-y-10">
-      <img className='border-2 border-zinc-400 rounded-full' width={150} height={150} src={"/AlimjanProfile.jpg"} alt='profile' ></img>
+      <Image className='border-2 border-zinc-400 rounded-full' width={150} height={150} src={"/Alimjan-Profile.jpg"} alt='profile' ></Image>
       <div className='space-y-2'>
       <p className='text-center'>Welcome to the personal website of <span className=' text-black font-semibold'>Alimjan Ablimit</span>  (also known as Alimujiang Abudumiti).</p>
 
