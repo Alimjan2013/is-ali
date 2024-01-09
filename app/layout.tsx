@@ -24,7 +24,6 @@ export default function RootLayout({
           inter.className
         )}>{children}
           <Analytics />
-        
         </body>
     </html>
   )
