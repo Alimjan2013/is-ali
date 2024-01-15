@@ -12,7 +12,7 @@ export default function Menu() {
             className="lg:border-4 border-2 border-zinc-400 rounded-full"
             width={100}
             height={100}
-            src={"/AlimjanProfile.jpg"}
+            src={"/Alimjan-Profile.jpg"}
             alt="profile"
           ></Image>
           <p className="text-xl lg:text-2xl font-bold text-center">
@@ -51,11 +51,11 @@ export default function Menu() {
               data-testid="geist-icon"
               fill="none"
               height="24"
-              shape-rendering="geometricPrecision"
+              shapeRendering="geometricPrecision"
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
               viewBox="0 0 24 24"
               width="24"
             >
