@@ -5,7 +5,7 @@ import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 export default function Menu() {
   return (
     <div className="lg:min-w-[200px]  lg:w-1/5 flex ">
-      <div className="md:hidden">手机导航</div>
+      <div className="md:hidden">building...</div>
       <div className="hidden  md:flex grow flex-col items-center pt-10 lg:m-4 m-2 lg:space-y-10 space-y-6 border-8 rounded-md border-amber-200 lg:px-8 xl:px-12 px-4">
         <div className="space-y-4 flex flex-col items-center w-full">
           <Image
