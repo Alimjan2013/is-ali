@@ -33,7 +33,7 @@ export default function Menu() {
           </div>
         </div>
 
-        <div className="space-y-4 flex flex-col items-start w-full font-medium text-2xl ">
+        <div className="space-y-4 flex flex-1 flex-col items-start w-full font-medium text-2xl ">
           <Link aria-disabled className="font-bold" href={"#"}>
             Home
           </Link>
@@ -63,6 +63,29 @@ export default function Menu() {
               <path d="M7 7h10v10"></path>
             </svg>
           </Link>
+
+          <div className="text-sm flex-1 text-zinc-500 flex flex-col items-center">
+
+        <p className="">
+          My site is currently under construction, but in the meantime,
+          you&apos;re warmly invited to learn more about me through my project
+          blog.
+        </p>
+{/* 
+        <p className="">
+          For insights into my work and interests, please{" "}
+          <Link
+            className="text-sky-500 underline underline-offset-1"
+            href={
+              "https://alimjan.notion.site/Is-Ali-7b3453d3c328479da2a2a838c2deaefe"
+            }
+            target="_blank"
+          >
+            click here to explore my blog
+          </Link>
+          .
+        </p> */}
+          </div>
         </div>
       </div>
     </div>
