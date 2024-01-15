@@ -22,9 +22,8 @@ export default function RootLayout({
     <html lang="en">
       <body  className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          inter.className
         )}>
-          <div className='flex  min-h-screen'>
+          <div className='flex flex-col md:flex-row min-h-screen'>
             <Menu></Menu>
             {children}
           </div>
