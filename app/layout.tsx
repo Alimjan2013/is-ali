@@ -8,9 +8,32 @@ import { cn } from "@/lib/utils"
  
 const inter = Inter({ subsets: ['latin'] })
 
+
+
 export const metadata: Metadata = {
   title: 'Is - Ali',
   description: 'This is blog for Alimjan Ablimit',
+  openGraph: {
+    title: 'Is - Ali',
+    description: 'This is blog for Alimjan Ablimit',
+    url: 'https://www.is-ali.tech',
+    siteName: 'Next.js',
+    images: [
+      {
+        url: 'http://io.iooslo.tech/is_Ali/og.png', // Must be an absolute URL
+        width: 800,
+        height: 600,
+      },
+      {
+        url: 'http://io.iooslo.tech/is_Ali/og-alt.png', // Must be an absolute URL
+        width: 1800,
+        height: 1600,
+        alt: 'This is blog for Alimjan Ablimit',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({
