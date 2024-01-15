@@ -23,7 +23,7 @@ export default function RootLayout({
       <body  className={cn(
           "min-h-screen bg-background font-sans antialiased",
         )}>
-          <div className='flex flex-col md:flex-row min-h-screen'>
+          <div className='flex flex-col md:flex-row min-h-screen h-dvh'>
             <Menu></Menu>
             {children}
           </div>
