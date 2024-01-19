@@ -1,3 +1,5 @@
+'use client'
+import { usePathname } from 'next/navigation'
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -31,6 +33,7 @@ export default function Menu() {
 }
 
 function MenuContent() {
+  const pathname = usePathname()
   return (
     <div className="space-y-6 md:border-8 border-4 rounded-md border-amber-200 lg:px-8 xl:px-12 px-6 grow flex-col items-center md:py-10  py-6 lg:m-4 m-2 lg:space-y-10">
       <div className="space-y-4 flex flex-col items-center w-full">
@@ -60,10 +63,10 @@ function MenuContent() {
       </div>
 
       <div className="space-y-4 flex flex-1 flex-col items-center md:items-start w-full font-medium text-2xl ">
-        <Link aria-disabled className="font-bold" href={"#"}>
+        <Link aria-disabled={pathname === '/'} className={`${pathname==='/'?'font-bold':" "} `} href={"/"}>
           Home
         </Link>
-        <Link href={"#"}> CV</Link>
+        <Link aria-disabled={pathname === '/cv'} className={`${pathname==='/cv'?'font-bold':" "} `}  href={"/cv"}> CV</Link>
         <Link href={"#"}> Project</Link>
         <Link
           className="flex"
