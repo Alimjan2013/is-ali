@@ -14,6 +14,7 @@ interface Skills {
 
 
 
+
 export default async function SkillBlock() {
 
   const staticData = await fetch(`https://getalicv.deno.dev`)
@@ -21,9 +22,9 @@ export default async function SkillBlock() {
   console.log(skills)
 
   return (
-    <div className="flex" >
+    <div className="grid md:grid-cols-3 grid-cols-2   gap-2 space-y-2 md:space-y-0" >
       {skills.categories.map((category) => (
-        <div className="flex-1" key={category.category}>
+        <div className="flex-1 last:row-span-2" key={category.category}>
           <h2 className="text-neutral-700 font-bold text-xl">{category.category}</h2>
           {category.skills.map((skill) => (
             <div  className="px-2 space-y-2" key={Object.keys(skill)[0]}>

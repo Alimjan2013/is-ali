@@ -37,7 +37,7 @@ export default function EduBlock() {
         </Badge>
       </div>
 
-      <div className="md:grid grid-cols-2 grid-flow-col gap-4 space-y-2 md:space-y-0 ">
+      <div className="md:grid grid-cols-2  gap-4 space-y-2 md:space-y-0 ">
         <div className="flex-1 space-y-2">
           <p>Main courses</p>
           <div className="flex flex-wrap gap-2">
