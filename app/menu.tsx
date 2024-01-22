@@ -13,7 +13,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 
 export default function Menu() {
   return (
-    <div className="lg:min-w-[200px]  lg:w-1/5 flex ">
+    <div className="md:min-w-[200px]  md:w-1/5 flex flex-0">
       <div className="md:hidden flex justify-between flex-1 px-4 py-2">
         <p className="text-xl font-semibold">is-ali.tech</p>
         <Drawer>
@@ -35,7 +35,7 @@ export default function Menu() {
 function MenuContent() {
   const pathname = usePathname()
   return (
-    <div className="space-y-6 md:border-8 border-4 rounded-md border-amber-200 lg:px-8 xl:px-12 px-6 grow flex-col items-center md:py-10  py-6 lg:m-4 m-2 lg:space-y-10">
+    <div className="space-y-6 md:border-8 border-4 rounded-md border-amber-200 lg:px-8 xl:px-12 px-6  flex-col items-center md:py-10  py-6 lg:m-4 m-2 lg:space-y-10">
       <div className="space-y-4 flex flex-col items-center w-full">
         <Image
           className="lg:border-4 border-2 border-zinc-400 rounded-full md:w-24 md:h-24 w-16 h-16"
