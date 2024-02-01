@@ -11,9 +11,11 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
+    "@types/diff": "^5.0.9",
     "@vercel/analytics": "^1.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "diff": "^5.1.0",
     "lucide-react": "^0.298.0",
     "next": "^14.1.0",
     "react": "^18",
