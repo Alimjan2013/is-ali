@@ -1,12 +1,16 @@
 export default function videoInfo() {
   return (
     <div className="flex-1 space-x-3 flex flex-row">
-      <div className="w-full h-full border-4 md:border-8  border-black">
-        <iframe
+      <div className="w-full h-full border-4 md:border-8  border-black flex items-center justify-center">
+        {/* <iframe
           src="https://www.loom.com/embed/0281766fa2d04bb788eaf19e65135184"
           allowFullScreen
           className="w-full h-full p-2"
-        ></iframe>
+        ></iframe> */}
+          <p className="center">
+            Video is Editing ... Please try the prototype on the right side first.
+          </p>
+
       </div>
       <div className="w-full h-full border-4 md:border-8  border-black">
         <iframe
