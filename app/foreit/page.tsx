@@ -2,15 +2,10 @@ export default function videoInfo() {
   return (
     <div className="flex-1 space-x-3 flex flex-row">
       <div className="w-full h-full border-4 md:border-8  border-black flex items-center justify-center">
-        {/* <iframe
-          src="https://www.loom.com/embed/0281766fa2d04bb788eaf19e65135184"
-          allowFullScreen
-          className="w-full h-full p-2"
-        ></iframe> */}
-          <p className="center">
-            Video is Editing ... Please try the prototype on the right side first.
-          </p>
-
+        <audio controls>
+          <source src="https://s3.is-ali.tech/EIT%20voice%20memo.m4a" type="audio/mp4" />
+        </audio>
+        
       </div>
       <div className="w-full h-full border-4 md:border-8  border-black">
         <iframe
