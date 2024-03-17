@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import QNRTC from "qnweb-rtc";
 
 
 import { useCallback } from "react";
@@ -12,19 +11,19 @@ const VideoChat = () => {
   
   const localTracksRef = useRef<HTMLDivElement>();
   const remoteTracksRef = useRef<HTMLDivElement>();
-  const roomTokenRef = useRef<HTMLInputElement>(null);
+  const userName = useRef<HTMLInputElement>(null);
 
   const joinRoom = useCallback(async () => {
-    const { default: QNRTC } = await import('qnweb-rtc');
 
+    // TODO: 获取token，
+
+    const { default: QNRTC } = await import('qnweb-rtc');
+    const userId = userName.current?.value;
     const client = QNRTC.createClient();
     console.log(QNRTC.VERSION)
     autoSubscribe(client);
-    const roomToken = roomTokenRef.current?.value;
-    if (!roomToken) {
-      console.error("Room token is not defined");
-      return;
-    }
+    const roomToken = await getRoomToken(userId as string);
+    
     await client.join(roomToken);
 
     console.log("joinRoom success!");
@@ -69,16 +68,38 @@ const VideoChat = () => {
     });
   };
 
-  useEffect(() => {
-    joinRoom();
-  }, [joinRoom]);
+  async function getRoomToken(userName: string) {
+    try {
+        const response = await fetch("https://getroomtoken.deno.dev/api/token", {
+            method: "POST",
+            body: JSON.stringify({ userId: userName, roomName: "oneRoom" }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.token; // assuming the token is returned in the 'token' property
+    } catch (error) {
+        console.error('Failed to get room token:', error);
+        return null;
+    }
+}
+
+  // useEffect(() => {
+  //   // joinRoom();
+  // }, [joinRoom]);
 
   return (
     <div className="p-10 space-y-4">
       <div className="space-y-2">
         <label>请输入 RoomToken 加入房间开始连麦</label>
         <div className="flex flex-row gap-3">
-          <Input ref={roomTokenRef} type="text" />
+          <Input ref={userName} type="text" />
           <Button onClick={joinRoom}>加入房间</Button>
         </div>
       </div>
