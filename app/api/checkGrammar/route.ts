@@ -1,4 +1,4 @@
-import { Result } from "postcss";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     const req:any = await request.json()
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     const data = await res.json();
     console.log(data);
 
-    return new Response(JSON.stringify(data.choices[0].message));
+    return new NextResponse(JSON.stringify(data.choices[0].message));
 
 
 }
