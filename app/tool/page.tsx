@@ -4,7 +4,6 @@ import { useState } from "react";
 import { diffChars } from "diff";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { get } from "http";
 
 
 function CheckWord(){
@@ -44,7 +43,6 @@ function CheckWord(){
 
 export default function Home() {
   const [text, setText] = useState("");
-  const [writing, setWriting] = useState("");
   const [deffScript, setDeffScript] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
 
