@@ -4,14 +4,50 @@ import { useState } from "react";
 import { diffChars } from "diff";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { get } from "http";
+
+
+function CheckWord(){
+  const getDifferences = (word1: string, word2: string) => {
+    const differences = diffChars(word1, word2);
+    return differences;
+  };
+  const [userInput, setUserInput] = useState("");
+  const [accurateWord, setAccurateWord] = useState("");
+  return (<div>
+    <input className="border" type="text" value={userInput} onChange={(e)=>setUserInput(e.target.value)}  />
+
+    <input className="border" type="text" value={accurateWord} onChange={(e)=>setAccurateWord(e.target.value)} />
+
+
+
+    <p className="text-xl font-medium p-3">
+      {getDifferences(userInput, accurateWord).map(
+        (part: any, index: any) => (
+          <span
+            key={index}
+            className={
+              part.added
+                ? "text-green-600"
+                : part.removed
+                ? "text-orange-600 bg-red-200 px-0.5 rounded"
+                : ""
+            }
+          >
+            {part.value}
+          </span>
+        )
+      )}
+    </p>
+  </div>)
+}
 
 export default function Home() {
   const [text, setText] = useState("");
   const [writing, setWriting] = useState("");
   const [deffScript, setDeffScript] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [userInput, setUserInput] = useState("");
-  const [accurateWord, setAccurateWord] = useState("");
+
 
   const handleChangeWriting = (newText: any) => {
     // const newText = event.target.value;
@@ -35,14 +71,28 @@ export default function Home() {
     setDeffScript(result);
   };
 
-  const getDifferences = (word1: string, word2: string) => {
-    const differences = diffChars(word1, word2);
-    return differences;
-  };
+
+
+ 
 
   async function getResult() {
-    handleChangeWriting(text);
-    console.log(text);
+    fetch("/api/checkGrammar", {
+      method: "POST",
+      body: JSON.stringify({ text }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        handleChangeWriting(data.content);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setIsLoading(false);
+    })
+
+
+  
   }
 
   return (
@@ -86,32 +136,7 @@ export default function Home() {
         check
       </Button>
 
-      <div>
-        <input className="border" type="text" value={userInput} onChange={(e)=>setUserInput(e.target.value)}  />
-
-        <input className="border" type="text" value={accurateWord} onChange={(e)=>setAccurateWord(e.target.value)} />
-
-
-
-        <p className="text-xl font-medium p-3">
-          {getDifferences(userInput, accurateWord).map(
-            (part: any, index: any) => (
-              <span
-                key={index}
-                className={
-                  part.added
-                    ? "text-green-600"
-                    : part.removed
-                    ? "text-orange-600 bg-red-200 px-0.5 rounded"
-                    : ""
-                }
-              >
-                {part.value}
-              </span>
-            )
-          )}
-        </p>
-      </div>
+      
     </main>
   );
 }
