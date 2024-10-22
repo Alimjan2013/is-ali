@@ -13,7 +13,7 @@ export async function POST(request: Request) {
         {
           role: "system",
           content:
-            "As an English teaching bot, you need to help students check their grammar in sentences.",
+            "As an English teaching bot, you need to help students check their grammar in sentences. please focus on grammar only. If there are no big mistic you can just return original sentance",
         },
         {
           role: "system",
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
           content: req.text,
         },
       ],
-      model: "llama3-70b-8192",
+      model: "llama-3.2-90b-text-preview",
     });
     const res = await fetch(url, { method: "POST", headers, body });
     const data = await res.json();
