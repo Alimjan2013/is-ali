@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import "./styles.css";
-import {MoveUp, MoveDown, MoveLeft, MoveRight} from "lucide-react";
+import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
 
 export default function Component() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -29,6 +29,7 @@ export default function Component() {
   const [pressStartTime, setPressStartTime] = useState<number | null>(null);
   const [pressProgress, setPressProgress] = useState<number>(0);
 
+  // Setup camera on component mount
   useEffect(() => {
     async function setupCamera() {
       try {
@@ -46,6 +47,7 @@ export default function Component() {
 
     setupCamera();
 
+    // Cleanup camera stream on component unmount
     return () => {
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
@@ -53,8 +55,8 @@ export default function Component() {
     };
   }, []);
 
+  // Start the game after component mount
   useEffect(() => {
-    // Start the game after component mount
     const timer = setTimeout(() => {
       activateRandomSection();
     }, 1000);
@@ -62,8 +64,8 @@ export default function Component() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Activate a random inactive section
   const activateRandomSection = () => {
-    // Get available inactive sections
     const availableSections = Object.entries(gameState.sections)
       .filter(([_, state]) => state === "inactive")
       .map(([section]) => section);
@@ -73,7 +75,6 @@ export default function Component() {
       return;
     }
 
-    // Select random section from available ones
     const randomSection =
       availableSections[Math.floor(Math.random() * availableSections.length)];
 
@@ -85,6 +86,7 @@ export default function Component() {
     }));
   };
 
+  // Reset the game state
   const resetGame = () => {
     setGameState({
       sections: {
@@ -100,6 +102,7 @@ export default function Component() {
     activateRandomSection();
   };
 
+  // Handle mouse down event on a section
   const handleSectionMouseDown = (position: string) => {
     if (gameState.sections[position] === "active") {
       setPressing(position);
@@ -108,6 +111,7 @@ export default function Component() {
     }
   };
 
+  // Handle mouse up event
   const handleSectionMouseUp = () => {
     if (pressing) {
       const pressDuration = Date.now() - (pressStartTime || 0);
@@ -131,6 +135,7 @@ export default function Component() {
     }
   };
 
+  // Update press progress
   useEffect(() => {
     if (pressing) {
       const interval = setInterval(() => {
@@ -145,6 +150,7 @@ export default function Component() {
     }
   }, [pressing, pressStartTime]);
 
+  // Handle click event on a section
   const handleSectionClick = (position: string) => {
     if (gameState.sections[position] === "active") {
       // Correct click
@@ -160,6 +166,7 @@ export default function Component() {
     }
   };
 
+  // Get background color based on section state
   const getBackgroundColor = (section: string) => {
     if (section === pressing) {
       const red = 239 + (34 - 239) * pressProgress;
