@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
+import './styles.css';
 
 export default function Component() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -107,7 +108,13 @@ export default function Component() {
       {/* Center Circle Video */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-[160px] h-[160px] rounded-full overflow-hidden z-10">
-          <video ref={videoRef} autoPlay playsInline className="w-full h-full object-cover rounded-full border-8 border-gray-200" />
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            style={{ transform: "rotateY(180deg)", WebkitTransform: "rotateY(180deg)", MozTransform: "rotateY(180deg)" }}
+            className="w-full h-full object-cover rounded-full border-8 border-gray-200"
+          />
           {!stream && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
               <div className="w-16 h-16 rounded-full border-2 border-gray-400 flex items-center justify-center">
@@ -168,6 +175,5 @@ export default function Component() {
       >
         <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white font-bold">4</span>
       </motion.div>
-    </div>
-  )
+    </div>  )
 }
