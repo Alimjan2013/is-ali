@@ -10,16 +10,16 @@ export default function Component() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [gameState, setGameState] = useState<{
-    sections: Record<string, "gray" | "red" | "green">;
+    sections: Record<string, "inactive" | "active" | "completed">;
     activeSection: string | null;
     gameStarted: boolean;
     completed: boolean;
   }>({
     sections: {
-      top: "gray",
-      right: "gray",
-      bottom: "gray",
-      left: "gray",
+      top: "inactive",
+      right: "inactive",
+      bottom: "inactive",
+      left: "inactive",
     },
     activeSection: null,
     gameStarted: false,
@@ -64,9 +64,9 @@ export default function Component() {
   }, []);
 
   const activateRandomSection = () => {
-    // Get available gray sections
+    // Get available inactive sections
     const availableSections = Object.entries(gameState.sections)
-      .filter(([_, color]) => color === "gray")
+      .filter(([_, state]) => state === "inactive")
       .map(([section]) => section);
 
     if (availableSections.length === 0) {
@@ -80,7 +80,7 @@ export default function Component() {
 
     setGameState((prev) => ({
       ...prev,
-      sections: { ...prev.sections, [randomSection]: "red" },
+      sections: { ...prev.sections, [randomSection]: "active" },
       activeSection: randomSection,
       gameStarted: true,
     }));
@@ -89,10 +89,10 @@ export default function Component() {
   const resetGame = () => {
     setGameState({
       sections: {
-        top: "gray",
-        right: "gray",
-        bottom: "gray",
-        left: "gray",
+        top: "inactive",
+        right: "inactive",
+        bottom: "inactive",
+        left: "inactive",
       },
       activeSection: null,
       gameStarted: false,
@@ -102,7 +102,7 @@ export default function Component() {
   };
 
   const handleSectionMouseDown = (position: string) => {
-    if (gameState.sections[position] === "red") {
+    if (gameState.sections[position] === "active") {
       setPressing(position);
       setPressStartTime(Date.now());
       setPressProgress(0);
@@ -116,7 +116,7 @@ export default function Component() {
         // Correct press
         setGameState((prev) => ({
           ...prev,
-          sections: { ...prev.sections, [pressing]: "green" },
+          sections: { ...prev.sections, [pressing]: "completed" },
         }));
 
         // Schedule next section after a short delay
@@ -147,11 +147,11 @@ export default function Component() {
   }, [pressing, pressStartTime]);
 
   const handleSectionClick = (position: string) => {
-    if (gameState.sections[position] === "red") {
+    if (gameState.sections[position] === "active") {
       // Correct click
       setGameState((prev) => ({
         ...prev,
-        sections: { ...prev.sections, [position]: "green" },
+        sections: { ...prev.sections, [position]: "completed" },
       }));
 
       // Schedule next section after a short delay
@@ -169,9 +169,9 @@ export default function Component() {
       return `rgb(${red}, ${green}, ${blue})`;
     }
     switch (gameState.sections[section]) {
-      case "red":
+      case "active":
         return "#ef4444";
-      case "green":
+      case "completed":
         return "#22c55e";
       default:
         return "#d1d5db";
