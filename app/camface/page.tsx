@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import "./styles.css";
-import { Card, CardContent } from "@/components/ui/card";
 import {MoveUp, MoveDown, MoveLeft, MoveRight} from "lucide-react";
 
 export default function Component() {
