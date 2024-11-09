@@ -45,7 +45,25 @@ export default function Component() {
   return (
     <div className="relative w-[384px] h-[384px] mx-auto bg-gray-100 rounded-lg overflow-hidden">
       {/* Center Circle Video */}
-      
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-[160px] h-[160px] rounded-full overflow-hidden z-10">
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            className="w-full h-full object-cover"
+          />
+          {!stream && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
+              <div className="w-16 h-16 rounded-full border-2 border-gray-400 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-gray-400" />
+                <div className="w-10 h-5 bg-gray-400 absolute mt-10 rounded-t-full" />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Triangular Sections */}
       <motion.div
         className="absolute w-full h-full cursor-pointer"
