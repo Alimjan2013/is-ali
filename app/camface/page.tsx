@@ -35,15 +35,46 @@ export default function Component() {
     }
   }, [])
 
-  const handleSectionClick = (position: keyof typeof sections) => {
+  let activeSection: keyof typeof sections | null = null;
+
+  const changeSectionColor = () => {
+    const sectionKeys = Object.keys(sections) as (keyof typeof sections)[];
+    const randomSection = sectionKeys[Math.floor(Math.random() * sectionKeys.length)];
     setSections(prev => ({
       ...prev,
-      [position]: !prev[position]
-    }))
-  }
+      [randomSection]: true
+    }));
+    activeSection = randomSection;
+  };
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    const startTimer = () => {
+      timer = setTimeout(() => {
+        changeSectionColor();
+      }, 5000);
+    };
+
+    startTimer();
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const handleSectionClick = (position: keyof typeof sections) => {
+    if (sections[position]) {
+      setSections(prev => ({
+        ...prev,
+        [position]: false
+      }));
+      changeSectionColor();
+    }
+  };
 
   return (
-    <div className="relative w-[384px] h-[384px] mx-auto bg-gray-100 rounded-lg overflow-hidden">
+    <div className="relative w-[384px] h-[384px] mx-auto my-auto bg-gray-100 rounded-lg overflow-hidden">
       {/* Center Circle Video */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-[160px] h-[160px] rounded-full overflow-hidden z-10">
@@ -51,7 +82,7 @@ export default function Component() {
             ref={videoRef}
             autoPlay
             playsInline
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-full border-8   border-gray-200"
           />
           {!stream && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
@@ -66,8 +97,8 @@ export default function Component() {
 
       {/* Triangular Sections */}
       <motion.div
-        className="absolute w-full h-full cursor-pointer"
-        animate={{ backgroundColor: sections.top ? "#22c55e" : "#ef4444" }}
+        className="absolute w-full h-full cursor-pointer "
+        animate={{ backgroundColor: sections.top ? "#22c55e" : activeSection === "top" ? "#ef4444" : "#d1d5db" }}
         onClick={() => handleSectionClick("top")}
         style={{
           clipPath: "polygon(0 0, 100% 0, 50% 50%)",
@@ -78,7 +109,7 @@ export default function Component() {
       
       <motion.div
         className="absolute w-full h-full cursor-pointer"
-        animate={{ backgroundColor: sections.right ? "#22c55e" : "#ef4444" }}
+        animate={{ backgroundColor: sections.right ? "#22c55e" : activeSection === "right" ? "#ef4444" : "#d1d5db" }}
         onClick={() => handleSectionClick("right")}
         style={{
           clipPath: "polygon(100% 0, 100% 100%, 50% 50%)",
@@ -89,7 +120,7 @@ export default function Component() {
       
       <motion.div
         className="absolute w-full h-full cursor-pointer"
-        animate={{ backgroundColor: sections.bottom ? "#22c55e" : "#ef4444" }}
+        animate={{ backgroundColor: sections.bottom ? "#22c55e" : activeSection === "bottom" ? "#ef4444" : "#d1d5db" }}
         onClick={() => handleSectionClick("bottom")}
         style={{
           clipPath: "polygon(0 100%, 100% 100%, 50% 50%)",
@@ -100,7 +131,7 @@ export default function Component() {
       
       <motion.div
         className="absolute w-full h-full cursor-pointer"
-        animate={{ backgroundColor: sections.left ? "#22c55e" : "#ef4444" }}
+        animate={{ backgroundColor: sections.left ? "#22c55e" : activeSection === "left" ? "#ef4444" : "#d1d5db" }}
         onClick={() => handleSectionClick("left")}
         style={{
           clipPath: "polygon(0 0, 0 100%, 50% 50%)",
