@@ -6,13 +6,15 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckCircle, XCircle, HelpCircle, Save } from 'lucide-react'
-// import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/sonner"
 import { toast } from "sonner"
 
+interface ProgressData {
+  token: string;
+  progress: number;
+}
 
 export default function Component() {
-  // const { toast } = useToast()
   const statements = [
     "Should we choice Sitra's challenge?",
     "Is artificial intelligence beneficial for society?",
@@ -31,21 +33,13 @@ export default function Component() {
   const [progress, setProgress] = useState(0)
   const [isValid, setIsValid] = useState(false)
   const [isCompleted, setIsCompleted] = useState(false)
+  const [canVote, setCanVote] = useState(false)
 
   useEffect(() => {
-    // Load progress from localStorage
-    const savedProgress = localStorage.getItem('votingProgress')
-    const savedToken = localStorage.getItem('votingToken')
-    if (savedProgress) {
-      const index = parseInt(savedProgress)
-      setCurrentIndex(index)
-      setProgress(((index + 1) / statements.length) * 100)
-      setIsCompleted(index >= statements.length - 1)
-    }
-    if (savedToken) {
-      setToken(savedToken)
-      setIsValid(true)
-    }
+    // Clear input and reset states on refresh
+    setToken('')
+    setIsValid(false)
+    setCanVote(false)
   }, [])
 
   const handleVote = () => {
@@ -57,9 +51,10 @@ export default function Component() {
       if (newIndex === statements.length - 1) {
         setIsCompleted(true)
         toast("Congratulations! You have completed all statements.")
-
-      
       }
+
+      // Save progress after each vote
+      saveProgress(newIndex)
     }
   }
 
@@ -67,13 +62,50 @@ export default function Component() {
     const value = e.target.value
     setToken(value)
     setIsValid(value.length >= 3)
+    setCanVote(false) // Reset canVote when token changes
   }
 
-  const saveProgress = () => {
-    localStorage.setItem('votingProgress', currentIndex.toString())
-    localStorage.setItem('votingToken', token)
-    toast("Progress Saved, Your progress has been saved successfully.")
-  
+  const saveProgress = (index: number) => {
+    const savedData = localStorage.getItem('votingData')
+    let progressData: ProgressData[] = savedData ? JSON.parse(savedData) : []
+    
+    const existingIndex = progressData.findIndex(item => item.token === token)
+    if (existingIndex !== -1) {
+      progressData[existingIndex].progress = index
+    } else {
+      progressData.push({ token, progress: index })
+    }
+
+    localStorage.setItem('votingData', JSON.stringify(progressData))
+    toast("Progress Saved. Your progress has been saved successfully.")
+  }
+
+  const checkProgress = () => {
+    if (!isValid) {
+      toast.error("Please enter a valid token first.")
+      return
+    }
+
+    const savedData = localStorage.getItem('votingData')
+    let progressData: ProgressData[] = savedData ? JSON.parse(savedData) : []
+    const userProgress = progressData.find(item => item.token === token)
+
+    if (userProgress) {
+      setCurrentIndex(userProgress.progress)
+      setProgress(((userProgress.progress + 1) / statements.length) * 100)
+      setIsCompleted(userProgress.progress >= statements.length - 1)
+      toast.success("Progress loaded successfully.")
+    } else {
+      // New token: initialize with progress 0
+      progressData.push({ token, progress: 0 })
+      localStorage.setItem('votingData', JSON.stringify(progressData))
+      setCurrentIndex(0)
+      setProgress(0)
+      setIsCompleted(false)
+      toast.info("New token registered. Starting from the beginning.")
+    }
+
+    setCanVote(true) // Enable voting after checking progress
   }
 
   return (
@@ -81,7 +113,7 @@ export default function Component() {
       <div className="space-y-2">
         <div className="flex justify-between text-sm text-muted-foreground">
           <span>Progress</span>
-          <span>{currentIndex + 1} of {statements.length}</span>
+          <span>{Math.min(currentIndex + 1, statements.length)} of {statements.length}</span>
         </div>
         <Progress value={progress} className="w-full" />
       </div>
@@ -95,9 +127,8 @@ export default function Component() {
             onChange={handleTokenChange}
           />
         </div>
-        <Button variant="outline" onClick={saveProgress}>
-          <Save className="w-4 h-4 mr-2" />
-          Save Progress
+        <Button variant="outline" onClick={checkProgress} disabled={!isValid}>
+          Check Progress
         </Button>
       </div>
 
@@ -119,7 +150,7 @@ export default function Component() {
           <div className="flex flex-col sm:flex-row gap-2 justify-center">
             <Button
               onClick={handleVote}
-              disabled={!isValid || isCompleted}
+              disabled={!canVote || isCompleted}
               variant="outline"
               className="flex-1"
             >
@@ -128,7 +159,7 @@ export default function Component() {
             </Button>
             <Button
               onClick={handleVote}
-              disabled={!isValid || isCompleted}
+              disabled={!canVote || isCompleted}
               variant="outline"
               className="flex-1"
             >
@@ -137,7 +168,7 @@ export default function Component() {
             </Button>
             <Button
               onClick={handleVote}
-              disabled={!isValid || isCompleted}
+              disabled={!canVote || isCompleted}
               variant="outline"
               className="flex-1"
             >
@@ -148,9 +179,9 @@ export default function Component() {
         </CardContent>
       </Card>
 
-      {!isValid && (
+      {!canVote && (
         <p className="text-sm text-muted-foreground text-center">
-          Please enter a token to enable voting
+          Please enter a token and check progress to enable voting
         </p>
       )}
       
