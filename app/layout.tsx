@@ -53,7 +53,7 @@ export default function RootLayout({
           "min-h-screen bg-background font-sans antialiased",
         )}>
           <div className='flex flex-col md:flex-row min-h-screen h-dvh'>
-            {/* <Menu></Menu> */}
+            <Menu></Menu>
             {children}
           </div>
           <Analytics />
